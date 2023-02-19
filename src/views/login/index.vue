@@ -23,29 +23,24 @@
               placeholder="请输入密码"
             />
           </p>
-          <p class="input-box password">
-            <input
-              style="width: 60%"
-              class="input"
-              v-model="loginForm.code"
-              :maxlength="16"
-              placeholder="请输入验证码"
-            />
+          <p class="input-box checkCode">
+            <input class="input" v-model="loginForm.code" :maxlength="16" placeholder="请输入验证码" />
             <img :src="codeUrl" @click="getCode" class="login-code-img" />
           </p>
-          <a-button type="primary" block @click="submit" :loading="loading">登 录</a-button>
+          <a-button type="primary" block @click="submit" :loading="loading" size="large">登 录</a-button>
         </div>
       </section>
     </div>
     <div id="slid-box"></div>
   </section>
 </template>
-<script setup>
+<script setup lang="ts">
 import { reactive, ref } from 'vue'
 import { message } from 'ant-design-vue'
 import { login, getCodeImg } from '@/api'
 import { useToken } from '@/store/useUserInfo'
 import { useRoute, useRouter } from 'vue-router'
+import { setToken } from '@/utils/auth'
 const router = useRouter()
 const route = useRoute()
 const codeUrl = ref('')
@@ -86,13 +81,14 @@ const submit = function () {
     // 做一些登录后的操作 保存token 重定向至上一个页面或者首页
     const tokenStore = useToken()
     tokenStore.setToken(res.token)
+    setToken(res.token)
     const redirectPath = route.query && route.query.redirect
     router.push({ path: redirectPath })
   })
 }
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .login-main {
   width: 100%;
   height: 100%;
@@ -131,7 +127,7 @@ const submit = function () {
           position: relative;
           margin-bottom: 0;
           .input {
-            width: 360px;
+            width: 100%;
             height: 50px;
             padding: 14px 14px 14px 48px;
             margin-bottom: 32px;
@@ -179,32 +175,15 @@ const submit = function () {
             }
           }
         }
-        .ant-btn {
-          width: 360px;
-          height: 52px;
-          border: none;
-          font-size: 18px;
-          letter-spacing: 20px;
-          background: -webkit-linear-gradient(
-            270deg,
-            rgba(113, 233, 254, 1) 0%,
-            rgba(88, 187, 254, 1) 100%
-          ); /*for safari5.1-6.0*/
-          background: -o-linear-gradient(
-            270deg,
-            rgba(113, 233, 254, 1) 0%,
-            rgba(88, 187, 254, 1) 100%
-          ); /*Opera 11.1-12.0*/
-          background: -moz-linear-gradient(
-            270deg,
-            rgba(113, 233, 254, 1) 0%,
-            rgba(88, 187, 254, 1) 100%
-          ); /*firefox 3.6-15*/
-          background: linear-gradient(
-            270deg,
-            rgba(113, 233, 254, 1) 0%,
-            rgba(88, 187, 254, 1) 100%
-          ); /*标准语法*/
+        .checkCode {
+          display: flex;
+          align-items: center;
+          width: 100%;
+          .login-code-img {
+            height: 50px;
+            margin-bottom: 32px;
+            width: 40%;
+          }
         }
       }
     }
