@@ -1,7 +1,8 @@
 import { createApp } from 'vue';
 import Antd from 'ant-design-vue';
 import 'ant-design-vue/dist/antd.css';
-import './style.css';
+// 引入公共样式
+import './assets/styles/index.scss';
 import App from '@/App.vue';
 import './permission';
 import router from './router/index';

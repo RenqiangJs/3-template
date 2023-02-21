@@ -5,9 +5,10 @@ import { createVNode } from 'vue';
 import { getToken } from './auth';
 import errorCode from './errorCode';
 import { tansParams } from '@/utils/index';
+import { useToken } from '@/store/useUserInfo';
+import { removeToken } from '@/utils/auth';
 axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8';
-console.log(import.meta.env.VITE_BASE_API, 'import.meta.env.VITE_BASE_API');
-
+const tokenStore = useToken();
 // 创建axios实例
 const service = axios.create({
 	// axios中请求配置有baseURL选项，表示请求URL公共部分
@@ -55,6 +56,8 @@ service.interceptors.response.use(
 				content: createVNode('div', { style: 'color:red;' }, '登录状态已过期，您可以继续留在该页面，或者重新登录'),
 				onOk() {
 					console.log('重新登陆');
+					tokenStore.clearToken();
+					removeToken();
 				},
 				onCancel() {
 					console.log('Cancel');

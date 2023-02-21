@@ -1,19 +1,73 @@
 <template>
   <a-layout>
-    <a-layout-header>Header</a-layout-header>
-    <a-layout>
-      <a-layout-sider>Sider</a-layout-sider>
-      <a-layout-content>
-        <router-view></router-view>
-      </a-layout-content>
+    <a-layout-sider
+      v-model:collapsed="collapsed"
+      :trigger="null"
+      collapsible
+      :style="{ marginBottom: '0px' }"
+    >
+      <div class="logo" />
+      <a-menu v-model:selectedKeys="selectedKeys" theme="dark" mode="inline">
+        <a-menu-item key="1">
+          <user-outlined />
+          <span>nav 1</span>
+        </a-menu-item>
+        <a-menu-item key="2">
+          <video-camera-outlined />
+          <span>nav 2</span>
+        </a-menu-item>
+        <a-menu-item key="3">
+          <upload-outlined />
+          <span>nav 3</span>
+        </a-menu-item>
+      </a-menu>
+    </a-layout-sider>
+    <a-layout :style="{ height: '100vh' }">
+      <a-layout-header style="background: #fff; padding: 0">
+        <menu-unfold-outlined
+          v-if="collapsed"
+          class="trigger"
+          @click="() => (collapsed = !collapsed)"
+        />
+        <menu-fold-outlined v-else class="trigger" @click="() => (collapsed = !collapsed)" />
+      </a-layout-header>
+      <app-main />
     </a-layout>
-    <a-layout-footer>Footer</a-layout-footer>
   </a-layout>
 </template>
-<script lang="ts" setup></script>
-<style>
-#app .ant-layout-header {
-  color: #fff;
-  background: #7dbcea;
+<script lang="ts" setup>
+import {
+  UserOutlined,
+  VideoCameraOutlined,
+  UploadOutlined,
+  MenuUnfoldOutlined,
+  MenuFoldOutlined,
+} from '@ant-design/icons-vue'
+import { defineComponent, ref } from 'vue'
+import AppMain from './component/AppMain.vue'
+const selectedKeys = ref<string[]>(['1'])
+const collapsed = ref<boolean>(false)
+</script>
+<style lang="scss" scoped>
+.trigger {
+  font-size: 18px;
+  line-height: 64px;
+  padding: 0 24px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.trigger AppMain:hover {
+  color: #1890ff;
+}
+
+.logo {
+  height: 32px;
+  background: rgba(255, 255, 255, 0.3);
+  margin: 16px;
+}
+
+.site-layout .site-layout-background {
+  background: #fff;
 }
 </style>
