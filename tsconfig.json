@@ -21,5 +21,6 @@
 		}
 	},
 	"include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "src/utils/index.ts", "src/main.ts", "src/permission.ts", "src/utils/request.js"],
-	"references": [{ "path": "./tsconfig.node.json" }]
+	"references": [{ "path": "./tsconfig.node.json" }],
+	"exclude": ["node_modules"]
 }

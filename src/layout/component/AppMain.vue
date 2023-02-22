@@ -11,3 +11,8 @@
     </router-view>
   </a-layout-content>
 </template>
+<script lang="ts" setup>
+import { useRoute } from 'vue-router'
+const router = useRoute()
+const key = router.path
+</script>
