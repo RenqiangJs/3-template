@@ -1,10 +1,11 @@
 <template>
-  <div class="base-count-down">
-    还剩{{ day }}天{{ hours }}:{{ mins }}:{{ seconds }}
-  </div>
+  <div
+    class="base-count-down"
+  >还剩{{ HandMandS.day }}天{{ HandMandS.hours }}:{{ HandMandS.mins }}:{{ HandMandS.seconds }}</div>
 </template>
 <script lang="ts" setup>
-import { defineProps, computed, reactive } from 'vue'
+import { log } from 'console'
+import { defineProps, computed, reactive, onMounted, watch, ref } from 'vue'
 const props = defineProps({
   time: {
     type: [Number, String],
@@ -15,35 +16,45 @@ const props = defineProps({
     default: false,
   },
 })
+onMounted(() => {
+  countDown()
+})
 const duration = computed(() => {
   const time = props.isMilliSecond
     ? Math.round(+props.time / 1000)
     : Math.round(+props.time)
   return time
 })
+const curTime = ref(null)
 const countDown = () => {
-  getTime(duration)
+  //  部分浏览器在进入后台时(或者失去焦点时), 会将 setTimeout 等定时任务暂停 待用户回到浏览器时, 才会重新激活定时任务
+  curTime.value = Date.now()
+  getTime(duration.value)
 }
 let timerInstance = reactive({
   timer: null,
 })
 const HandMandS = reactive({
-  day: '0',
-  hours: '00',
-  mins: '00',
-  seconds: '00',
+  day: 0,
+  hours: 0,
+  mins: 0,
+  seconds: 0,
 })
 const getTime = (duration) => {
+  console.log(duration, 41)
   timerInstance.timer && clearTimeout(timerInstance.timer)
   if (duration < 0) return
   const { dd, hh, mm, ss } = durationFormatter(duration)
-  HandMandS.day = dd
-  HandMandS.hours = hh
-  HandMandS.mins = mm
-  HandMandS.seconds = ss
+  HandMandS.day = dd || 0
+  HandMandS.hours = hh || 0
+  HandMandS.mins = mm || 0
+  HandMandS.seconds = ss || 0
   timerInstance.timer = setTimeout(() => {
-    getTime(duration - 1)
-  })
+    const now = Date.now()
+    const diffTime = Math.floor((now - curTime.value) / 1000)
+    curTime.value = now
+    getTime(duration - diffTime)
+  }, 1000)
 }
 const durationFormatter = (time) => {
   if (!time) return { ss: 0 }

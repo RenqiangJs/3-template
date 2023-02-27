@@ -5,7 +5,9 @@
     <router-view v-slot="{ Component }" :key="key">
       <keep-alive>
         <transition name="fade-transform" mode="out-in">
-          <component :is="Component" />
+          <div>
+            <component :is="Component" />
+          </div>
         </transition>
       </keep-alive>
     </router-view>
