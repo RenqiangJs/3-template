@@ -5,7 +5,7 @@
 </template>
 <script lang="ts" setup>
 import { log } from 'console'
-import { defineProps, computed, reactive, onMounted, watch, ref } from 'vue'
+import { computed, reactive, onMounted, watch, ref } from 'vue'
 const props = defineProps({
   time: {
     type: [Number, String],
