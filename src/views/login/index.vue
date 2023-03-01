@@ -37,7 +37,7 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
 import { message } from 'ant-design-vue'
-import { login, getCodeImg } from '@/api'
+import { login, getCodeImg, getRouters } from '@/api'
 import { useToken } from '@/store/useUserInfo'
 import { useRoute, useRouter } from 'vue-router'
 import { setToken } from '@/utils/auth'
@@ -71,6 +71,10 @@ getCode()
 const submit = function () {
   if (!loginForm.value.username) {
     message.error('请输入手机号码')
+    return
+  }
+  if (!loginForm.value.password) {
+    message.error('请输入密码')
     return
   }
   if (!loginForm.value.password) {
