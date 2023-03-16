@@ -1,8 +1,7 @@
 import request from '@/utils/request';
-import { LoginForm } from '@/api/types/login';
 
 // 登录方法
-export function login(data: LoginForm) {
+export function login(data) {
 	return request({
 		url: '/login',
 		method: 'post',
