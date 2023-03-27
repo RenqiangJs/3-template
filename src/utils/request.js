@@ -7,8 +7,9 @@ import errorCode from './errorCode';
 import { tansParams } from '@/utils/index';
 import { useToken } from '@/store/useUserInfo';
 import { removeToken } from '@/utils/auth';
+import { useRouter } from 'vue-router';
 axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8';
-
+const router = useRouter();
 // 创建axios实例
 const service = axios.create({
 	// axios中请求配置有baseURL选项，表示请求URL公共部分
@@ -59,10 +60,9 @@ service.interceptors.response.use(
 					console.log('重新登陆');
 					tokenStore.clearToken();
 					removeToken();
+					router.push({ path: '/login' });
 				},
-				onCancel() {
-					console.log('Cancel');
-				},
+				onCancel() {},
 				class: 'test',
 			});
 			return Promise.reject('无效的会话，或者会话已过期，请重新登录。');

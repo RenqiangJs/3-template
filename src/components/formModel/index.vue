@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<a-form :model="innerFormData" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }" autocomplete="off" :layout="searchConfig.layout" @finish="onFinish">
+		<a-form ref="formRef" :model="innerFormData" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }" autocomplete="off" :layout="searchConfig.layout" @finish="onFinish">
 			<template v-for="item in searchConfig.formItems" :key="item.label">
 				<a-form-item :label="item.label" :name="item.field" :rules="item.rules">
 					<a-input v-if="item.type === 'input'" v-model:value="innerFormData[item.field]" :placeholder="item.placeholder" />
@@ -43,8 +43,9 @@
 </template>
 <script lang="ts" setup>
 import { UploadOutlined } from '@ant-design/icons-vue';
+import type { FormInstance } from 'ant-design-vue';
 import { log } from 'console';
-import { reactive, watch } from 'vue';
+import { reactive, watch, ref } from 'vue';
 const props = defineProps({
 	searchConfig: {
 		type: Object,
@@ -68,6 +69,7 @@ watch(
 	},
 	{ immediate: true }
 );
+const formRef = ref<FormInstance>();
 const emit = defineEmits<{
 	(e: 'update:modelValue', value: any): void;
 }>();

@@ -34,7 +34,7 @@ export const searchFormConfig: IForm = {
 		{
 			disabled: false,
 			ghost: false,
-			icon: 'arrow-up-outlined',
+			icon: 'HomeOutlined',
 			loading: false,
 			type: 'primary',
 			block: true,
@@ -44,11 +44,15 @@ export const searchFormConfig: IForm = {
 			shape: 'default',
 			size: 'large',
 			span: 6,
+			on: {
+				reset: () => {},
+				submit: () => {},
+			},
 		},
 		{
 			disabled: false,
 			ghost: false,
-			icon: 'upload',
+			icon: 'SmileOutlined',
 			loading: false,
 			type: 'primary',
 			block: true,

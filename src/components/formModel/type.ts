@@ -25,7 +25,7 @@ export interface BTNGroup {
 	innerText?: string;
 	htmlType?: string;
 	show?: boolean;
-	click?: () => unknown;
+	on?: { reset?: () => unknown; submit?: () => void };
 }
 export interface IForm {
 	formItems: IFormItem[];
